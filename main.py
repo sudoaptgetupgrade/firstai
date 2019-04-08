@@ -1,7 +1,11 @@
 from keras.models import Sequential
 from keras.layers import Dense
 import numpy
+import pandas as pd
+
 numpy.random.seed(7)
+
+#trainorpredict = input("Train or predict? t=train p=predict: ")
 
 #Input the amount of training needed
 epochs = input("How many epochs??: ")
@@ -26,6 +30,14 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 #Fit the model
 model.fit(X, Y, epochs=epochs, batch_size=batchsize)
 
+#Make Predictions
+predictions = model.predict(X)
+
+#Round Predictions
+rounded = [round(x[0]) for x in predictions]
+print(rounded)
+prediction = pd.DataFrame(rounded, columns=['predictions']).to_csv('prediction.csv')
+
 #Evaluation
-scores = model.evaluate(X, Y)
-print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+#scores = model.evaluate(X, Y)
+#print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
